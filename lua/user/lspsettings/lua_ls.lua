@@ -2,10 +2,11 @@ return {
   settings = {
     Lua = {
       format = {
-        enable = false,
+        enable = true,
       },
       diagnostics = {
         globals = { "vim", "spec" },
+        disable = {"missing-fields"}
       },
       runtime = {
         version = "LuaJIT",

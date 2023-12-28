@@ -35,6 +35,42 @@ function M.config()
       -- detached = false,
     },
   }
+
+dap.adapters.delve = {
+  type = 'server',
+  port = '${port}',
+  executable = {
+    command = 'dlv',
+    args = {'dap', '-l', '127.0.0.1:${port}'},
+  }
+}
+
+-- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
+dap.configurations.go = {
+  {
+    type = "delve",
+    name = "Debug",
+    request = "launch",
+    program = "${file}"
+  },
+  {
+    type = "delve",
+    name = "Debug test", -- configuration for debugging test files
+    request = "launch",
+    mode = "test",
+    program = "${file}"
+  },
+  -- works with go.mod packages and sub packages 
+  {
+    type = "delve",
+    name = "Debug test (go.mod)",
+    request = "launch",
+    mode = "test",
+    program = "./${relativeFileDirname}"
+  } 
+}
+
+
   dap.configurations.c = {
     {
       name = "Launch file",
@@ -58,8 +94,8 @@ M = {
   "ravenxrz/DAPInstall.nvim",
   commit = "8798b4c36d33723e7bba6ed6e2c202f84bb300de",
   config = function()
-    require("dap_install").setup {}
-    require("dap_install").config("python", {})
+    -- require("dap_install").setup {}
+    require("dap-install").config("python", {})
   end,
 }
 
