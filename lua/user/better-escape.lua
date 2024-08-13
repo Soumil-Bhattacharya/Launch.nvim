@@ -1,19 +1,22 @@
 local M = {
   "max397574/better-escape.nvim",
+  config = function()
+    require("better_escape").setup {
+      timeout = vim.o.timeoutlen,
+      mappings = {
+      i = {
+            j = {
+                -- These can all also be functions
+                k = "<Esc>"
+            },
+            k = {
+                -- These can all also be functions
+                j = "<Esc>"
+            },
+        },
+    },
+    }
+  end,
 }
-function M.config()
-  local better_escape = require "better_escape"
-
-    better_escape.setup {
-    mapping = {"jk", "kj"}, -- a table with mappings to use
-    timeout = vim.o.timeoutlen, -- the time in which the keys must be hit in ms. Use option timeoutlen by default
-    clear_empty_lines = false, -- clear line after escaping if there is only whitespace
-    -- keys = "<Esc>", -- keys used for escaping, if it is a function will use the result everytime
-    -- example(recommended)
-    keys = function()
-      return vim.api.nvim_win_get_cursor(0)[2] > 1 and '<esc>l' or '<esc>'
-    end,
-}
-end
 
 return M

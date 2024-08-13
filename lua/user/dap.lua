@@ -36,41 +36,25 @@ function M.config()
     },
   }
 
-dap.adapters.delve = {
-  type = 'server',
-  port = '${port}',
-  executable = {
-    command = 'dlv',
-    args = {'dap', '-l', '127.0.0.1:${port}'},
+  dap.adapters.coreclr = {
+    type = "executable",
+    command = "netcoredbg",
+    args = { "--interpreter=vscode" },
   }
-}
-
--- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
-dap.configurations.go = {
-  {
-    type = "delve",
-    name = "Debug",
-    request = "launch",
-    program = "${file}"
-  },
-  {
-    type = "delve",
-    name = "Debug test", -- configuration for debugging test files
-    request = "launch",
-    mode = "test",
-    program = "${file}"
-  },
-  -- works with go.mod packages and sub packages 
-  {
-    type = "delve",
-    name = "Debug test (go.mod)",
-    request = "launch",
-    mode = "test",
-    program = "./${relativeFileDirname}"
-  } 
-}
-
-
+  dap.configurations.cs = {
+    {
+      type = "coreclr",
+      name = "launch - netcoredbg",
+      request = "launch",
+      program = function()
+        return vim.fn.input(
+          "Path to dll",
+          vim.fn.getcwd() .. "/bin/Debug/",
+          "file"
+        )
+      end,
+    },
+  }
   dap.configurations.c = {
     {
       name = "Launch file",
@@ -78,7 +62,10 @@ dap.configurations.go = {
       request = "launch",
       program = function()
         local path
-        vim.ui.input({ prompt = "Path to executable: ", default = vim.loop.cwd() .. "/build/" }, function(input)
+        vim.ui.input({
+          prompt = "Path to executable: ",
+          default = vim.loop.cwd() .. "/build/",
+        }, function(input)
           path = input
         end)
         vim.cmd [[redraw]]
@@ -90,13 +77,37 @@ dap.configurations.go = {
   }
 end
 
-M = {
-  "ravenxrz/DAPInstall.nvim",
-  commit = "8798b4c36d33723e7bba6ed6e2c202f84bb300de",
-  config = function()
-    -- require("dap_install").setup {}
-    require("dap-install").config("python", {})
-  end,
-}
+-- M = {
+--   "ravenxrz/DAPInstall.nvim",
+--   commit = "8798b4c36d33723e7bba6ed6e2c202f84bb300de",
+--   config = function()
+--     require("dap_install").setup {}
+--     require("dap_install").config("python", {
+--       adapters = {
+--         type = "executable",
+--         command = "python3.9",
+--         args = { "-m", "debugpy.adapter" },
+--       },
+--       configurations = {
+--         {
+--           type = "python",
+--           request = "launch",
+--           name = "Launch file",
+--           program = "${file}",
+--           pythonPath = function()
+--             local cwd = vim.fn.getcwd()
+--             if vim.fn.executable(cwd .. "/usr/bin/python3.9") == 1 then
+--               return cwd .. "/usr/bin/python3.9"
+--             elseif vim.fn.executable(cwd .. "/usr/bin/python3.9") == 1 then
+--               return cwd .. "/usr/bin/python3.9"
+--             else
+--               return "/usr/bin/python3.9"
+--             end
+--           end,
+--         },
+--       },
+--     })
+--   end,
+-- }
 
 return M

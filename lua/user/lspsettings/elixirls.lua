@@ -1,9 +1,4 @@
-local M =  {
-    -- Unix
-    cmd = { vim.fn.expand "$MASON/packages/elixir-ls/language_server.sh" };
-    -- Windows
-    -- cmd = { "/path/to/elixir-ls/language_server.bat" };
+local cmd = os.execute("which elixir-ls")
+local M = {
+  cmd = {cmd},
 }
-
-print(vim.fn.expand("$MASON/packages/elixir-ls/language_server.sh"));
-return M

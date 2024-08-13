@@ -28,13 +28,16 @@ keymap("v", ">", ">gv", opts)
 
 keymap("x", "p", [["_dP]])
 
--- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
 vim.cmd [[:amenu 10.100 mousemenu.Goto\ Definition <cmd>lua vim.lsp.buf.definition()<CR>]]
 vim.cmd [[:amenu 10.110 mousemenu.References <cmd>lua vim.lsp.buf.references()<CR>]]
-vim.cmd [[:amenu 10.120 mousemenu.-sep- *]]
+-- vim.cmd [[:amenu 10.120 mousemenu.-sep- *]]
 
--- vim.keymap.set("n", "<RightMouse>", "<cmd>:popup mousemenu<CR>")
--- vim.keymap.set("n", "<Tab>", "<cmd>:popup mousemenu<CR>")
+keymap("n", "<RightMouse>", "<cmd>:popup mousemenu<CR>")
+keymap("n", "<Tab>", "<cmd>:popup mousemenu<CR>")
+
+-- Better Navigating in wrapped text
+keymap("n", "j", "gj")
+keymap("n", "k", "gk")
+
+-- vim.keymap.set("i", "jk", "<esc>", opts)
+-- vim.keymap.set("i", "kj", "<esc>", opts)

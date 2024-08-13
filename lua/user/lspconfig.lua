@@ -7,22 +7,18 @@ local M = {
       "folke/neodev.nvim",
       commit = "b094a663ccb71733543d8254b988e6bebdbdaca4",
     },
-    {
-      "nvim-telescope/telescope.nvim",
-    },
   },
 }
 
-
 local function lsp_keymaps(bufnr)
-  -- local opts = { noremap = true, silent = true }
-  local keymap = vim.keymap.set
-  keymap( "n", "gD", vim.lsp.buf.declaration,{desc = '[G]oto [D]eclaration'})
-  keymap( "n", "gd", vim.lsp.buf.definition,{desc = '[G]oto [d]efinition'})
-  keymap( "n", "K", vim.lsp.buf.hover,{})
-  keymap( "n", "gI", vim.lsp.buf.implementation,{desc = '[G]oto [I]mplementation'})
-  keymap( "n", "gr", vim.lsp.buf.references, {desc = '[G]oto [R]eferences'})
-  keymap( "n", "gl", vim.diagnostic.open_float, {desc = 'Open floating diagnostic'})
+  local opts = { noremap = true, silent = true }
+  local keymap = vim.api.nvim_buf_set_keymap
+  keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+  keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+  keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+  keymap(bufnr, "n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+  keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+  keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 end
 
 M.on_attach = function(client, bufnr)
@@ -57,17 +53,14 @@ function M.config()
     "cssls",
     "html",
     "tsserver",
-    "astro",
+    "texlab",
     "pyright",
     "bashls",
     "jsonls",
     "yamlls",
     "marksman",
     "tailwindcss",
-    "gopls",
-    "texlab",
-    "elixirls",
-    "intelephense"
+    "csharp_ls"
   }
 
   local default_diagnostic_config = {

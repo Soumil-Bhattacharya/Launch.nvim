@@ -1,10 +1,10 @@
-local M = {
-    "benfowler/telescope-luasnip.nvim",
-    module = "telescope._extensions.luasnip", -- if you wish to lazy-load
+local M =  {
+  "benfowler/telescope-luasnip.nvim",
+  module = "telescope._extensions.luasnip",  -- if you wish to lazy-load
+  config = function ()
+    require("telescope").load_extension('luasnip')
+  end
 }
 
-function M.config()
-    require('telescope').load_extension('luasnip')
-end
 
 return M

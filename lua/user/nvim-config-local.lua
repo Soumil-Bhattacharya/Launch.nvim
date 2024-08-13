@@ -1,4 +1,5 @@
-local M =  {
+
+local M = {
   "klen/nvim-config-local",
   config = function()
     require('config-local').setup {
