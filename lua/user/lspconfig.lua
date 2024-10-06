@@ -52,16 +52,25 @@ function M.config()
     "lua_ls",
     "cssls",
     "html",
-    "tsserver",
-    "texlab",
-    "pyright",
     "bashls",
     "jsonls",
     "yamlls",
     "marksman",
-    "tailwindcss",
-    "csharp_ls"
+    "csharp_ls",
+    "gopls",
+    "pyright"
   }
+
+--[[
+    golangci-lint (keywords: go)
+    goimports (keywords: go)
+    delve (keywords: go)
+    go-debug-adapter (keywords: go)
+    golangci-lint-langserver golangci_lint_ls (keywords: go)
+    golines (keywords: go)
+    gopls (keywords: go)
+    templ (keywords: go, html)
+--]]
 
   local default_diagnostic_config = {
     signs = {

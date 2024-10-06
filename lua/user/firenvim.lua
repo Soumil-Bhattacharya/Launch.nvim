@@ -1,5 +1,5 @@
 local M = {
-  'glacambre/firenvim',
+  "glacambre/firenvim",
 
   -- Lazy load firenvim
   -- Explanation: https://github.com/folke/lazy.nvim/discussions/463#discussioncomment-4819297
@@ -7,16 +7,32 @@ local M = {
   build = function()
     vim.fn["firenvim#install"](0)
   end,
-  config = function ()
+  config = function()
     vim.g.firenvim_config = {
-    globalSettings = { alt = "all" },
-    localSettings = {
+      -- globalSettings = { alt = "all" },
+      localSettings = {
         ["https://www.google.com_*.txt"] = {
-            takeover = "never"
-        }
+          takeover = "never",
+        },
+        [".*"] = {
+          selector = "textarea",
+        },
+      },
     }
-}
-  end
+
+    vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
+      callback = function(e)
+        if vim.g.timer_started == true then
+          return
+        end
+        vim.g.timer_started = true
+        vim.fn.timer_start(10000, function()
+          vim.g.timer_started = false
+          vim.cmd "silent write"
+        end)
+      end,
+    })
+  end,
 }
 
 return M

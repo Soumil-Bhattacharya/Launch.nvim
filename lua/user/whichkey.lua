@@ -10,6 +10,7 @@ function M.config()
     ["/"] = { "<Plug>(comment_toggle_linewise_current)", "Comment" },
     ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
     ["e"] = { "<cmd>NvimTreeToggle<CR>", "Explorer" },
+    ["r"] = {vim.lsp.buf.rename,"[R]ename"},
     b = {
       name = "Buffers",
       b = { "<cmd>Telescope buffers previewer=false<cr>", "Find" },
